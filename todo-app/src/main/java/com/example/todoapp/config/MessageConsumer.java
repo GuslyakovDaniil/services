@@ -29,7 +29,7 @@ public class MessageConsumer {
     public void listen(String message) {
         String queueName = rabbitMQConfig.queueName;
         logger.info("Message read from {} : {}", queueName, message);
-        logger.debug("Received message from RabbitMQ: {}", message); // Add this line
+        logger.debug("Received message from RabbitMQ: {}", message);
         NotificationDTO notificationDTO = null;
         try {
             notificationDTO = objectMapper.readValue(message, NotificationDTO.class);
@@ -40,7 +40,7 @@ public class MessageConsumer {
             return;
         }
         notificationService.sendNotification(notificationDTO);
-        logger.debug("Message processed and notification sent: {}", notificationDTO); // Add this line
+        logger.debug("Message processed and notification sent: {}", notificationDTO);
 
     }
 }

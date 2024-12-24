@@ -23,7 +23,7 @@ public class NotificationService {
             String message = objectMapper.writeValueAsString(notificationDTO);
             template.convertAndSend("/topic/notifications", message);
         } catch (Exception e){
-            // Handle exception, such as logging or sending an error message
+
             System.err.println("Error serializing notificationDTO: " + e.getMessage());
             template.convertAndSend("/topic/notifications", "Error serializing notification message");
         }
