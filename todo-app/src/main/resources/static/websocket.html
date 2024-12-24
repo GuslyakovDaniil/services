@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Notifications</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<div id="notifications"></div>
+<script>
+    var socket = new SockJS('http://localhost:8080/ws');
+    var stompClient= Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/notifications', function(notification) {
+            var notifications = document.getElementById('notifications');
+            var message = document.createElement('p');
+                try {
+                    var parsedNotification = JSON.parse(notification.body);
+                    message.appendChild(document.createTextNode(JSON.stringify(parsedNotification, null, 2)));
+                }
+                catch (e){
+                    message.appendChild(document.createTextNode(notification.body));
+                }
+                notifications.appendChild(message);
+
+        });
+    });
+</script>
+</body>
+</html>
